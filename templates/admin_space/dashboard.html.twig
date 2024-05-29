@@ -1,0 +1,70 @@
+{#  <?php
+  $con1 = mysqli_connect("localhost","root","","users_base");
+  $sql1 = "SELECT COUNT(*) AS total FROM users";
+  $result1 = $con1->query($sql1);
+$row1= $result1->fetch_assoc();
+$msg1 = $row1["total"] ;
+
+$sql2 = "SELECT COUNT(*) AS total FROM admins";
+$result2 = $con1->query($sql2);
+$row2= $result2->fetch_assoc();
+$msg2 =$row2["total"] ;
+
+$con3 =mysqli_connect("localhost","root","","complaints");
+$sql3 = "SELECT COUNT(*) AS total FROM forms";
+$result3 = $con3->query($sql3);
+$row3= $result3->fetch_assoc();
+$msg3 = $row3["total"] ;
+?>
+#}
+
+{% extends 'sideBar.html.twig' %}
+
+{%  block head %}
+
+<head>
+    <meta charset="UTF-8">
+    <title> Dashbaord </title>
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/TableTemplate.css') }}">
+    <script src="{{ asset('js/TableTemplate.js') }}"></script>
+
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <!-- Boxiocns CDN Link -->
+
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <section class="top">
+        <div class="numbers">
+            <div class="nb_users" onclick="window.location.href='Members/Members-Users.php'">
+                <i class='bx bxs-user-plus' ></i>
+                <span class="label"> Number of Users</span>
+                <p id="msg"> <?php echo "$msg1" ?> </p>
+            </div>
+
+            <div class="nb_admins" onclick="window.location.href='Members/Members-Admins.php'">
+                <i class='bx bxs-user-rectangle'></i>
+                <span class="label"> Number of Admins</span>
+                <p id="msg"> <?php echo "$msg2" ?> </p>
+
+            </div>
+
+            <div class="nb_complaints" onclick="window.location.href='Forms/Complaints.php'">
+                <i class='bx bxs-bell'></i>
+                <span class="label"> Number of Complaints</span>
+                <p id="msg"> <?php echo "$msg3" ?> </p>
+            </div>
+        </div>
+    </section>
+</section>
+
+{% endblock %}
+

@@ -1,0 +1,57 @@
+{% extends 'sideBar.html.twig'  %}
+
+{% block title %} Complaints {% endblock %}
+
+{% block body %}
+{{ parent() }}
+    <div class="main_table">
+        <main class="table" id="customers_table">
+            <section class="table__header" style="background-color: #99D98C ;">
+                <h1 style="color: hsla(0, 100%, 99.8%, 0.84) ;">Complaints Table</h1>
+                <div class="input-group">
+                    <input type="search" placeholder="Search Data...">
+                </div>
+                <div class="export__file">
+                    <label for="export-file" class="export__file-btn" title="Export File"></label>
+                    <input type="checkbox" id="export-file">
+                    <div class="export__file-options">
+                        <label>Export As &nbsp; &#10140;</label>
+                        <label for="export-file" id="toPDF">PDF </label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="table__body">
+                <table>
+                    <thead style="background-color : hsla(300, 50.98%, 20%, 0.66) ; ">
+                    <tr >
+                        <th> Id </th>
+                        <th> Username <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Email <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Complaint <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Delete </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                        <td>{{ complaint.id }}</td>
+                        <td>{{ complaint.username }}</td>
+                        <td>{{ complaint.email }}</td>
+                        <td>{{ complaint.complaint }}</td>
+                        <td>
+                        <a href="{{ path('admin_forms', {'id': complaint.id}) }}" class="del-btn">Delete</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</section>
+
+{% endblock %}
+
+

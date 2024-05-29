@@ -1,0 +1,94 @@
+{#
+?php
+session_start();
+//retrieve the notes saved in the data base  :
+$conn = mysqli_connect("localhost","root","","users_base") ;
+if (!$conn)
+{
+echo "connexion to database failed"  ;
+}
+
+$userId = $_SESSION['user_id'] ;
+$notesTaken = [] ;
+
+$stmt = $conn->prepare("SELECT `noteText` FROM `addednotes` WHERE `userID` =?") ;
+$stmt->bind_param("i",$userId) ;
+$stmt->execute() ;
+$result = $stmt ->get_result()  ;
+
+while ($row = $result->fetch_assoc()){
+$notesTaken[] = $row['noteText'] ;
+}
+
+?>
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ asset('css/posts.css') }}" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"    />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>Review</title>
+</head>
+
+
+<header>
+    <i class='bx bxs-planet' style="color : white ; font-size : 25px; margin-right : 5px;"></i>
+    <a class="logo"> MyMap.com </a>
+    <nav>
+        <a href="{{ path('map') }}"class="active">Map</a>
+        <a href="{{ path('home_page') }}">Sign out</a>
+    </nav>
+</header>
+
+<body>
+<h2>My Journey</h2>
+<!-- <button class="btnAdd" style="font-weight : bold ;" ><i class="fas fa-pencil"></i> Add Country</button> -->
+<div class="note-wrapper">
+    <div class="operations">
+
+        <!-- delete note -->
+        <form action="changeNote.php" method="post" id="delForm">
+            <input type="hidden" name="action" value="delete" >
+            <input type="hidden" name="addNoteText" id="delNoteText">
+            <button class="delete" onclick="delNote()"><i class="fas fa-trash-alt"></i> </button>
+        </form>
+
+        <!-- add note -->
+        <form action="changeNote.php" method="post" id="addForm">
+            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="addNoteText" id="addNoteText">
+            <label class="addNote">
+                <button id="addNote" onclick="saveNote()"><i class='bx bx-check' style="font-weight: bold; font-size:29px; "></i> </button>
+            </label>
+        </form>
+
+        <div class="main">
+            <textarea id="noteText" placeholder="Write something..."></textarea>
+        </div>
+
+    </div>
+</div>
+
+<script src="{{ asset('js/posts.js') }}></script>
+</body>
+</html>
+{#
+    <script>
+        var notesTaken = <?php echo json_encode($notesTaken); ?> ;
+        document.addEventListener('DOMContentLoaded', (event) => {
+            notesTaken.forEach(function(noteText) {
+                addNoteWithCameraIcon(noteText) ;
+            });
+        });
+
+    </script>
+#}
+

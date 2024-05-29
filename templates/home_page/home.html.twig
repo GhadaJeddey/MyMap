@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>MyMap</title>
+
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+<header>
+    <i class='bx bxs-planet' ></i>
+    <a href="{{ path('home_page') }}" class="logo"> MyMap.com </a>
+    <nav>
+        <a href="{{ path('home_page') }}" class="active">Home</a>
+        <a href="#services">Services</a>
+        <a href="#aboutus">About us </a>
+        <a href="#contactus">Contact us </a>
+        <a href="{{ path('sign_up') }}" >Sign up</a>
+    </nav>
+</header>
+
+
+<section id="home" class="home">
+    <div class="containerr">
+        <div class="welcome">
+            <p class="text" style="font-family: Georgia, serif;  margin-top : 10px ;">Document your travel adventures with MyMap  </p>
+            <a style="text-decoration: none;" href="{{ path('login') }}">
+                <button class="log" style="margin-botton : 10px ;" >Login</button>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="services">
+    <p class="title" >Services </p>
+    <ul class="service-list">
+        <li class="service">
+            <h2>Interactive Map</h2>
+            <p>Explore your travel adventures visually with our interactive map feature.</p>
+        </li>
+        <li class="service">
+            <h2>Travel Journaling</h2>
+            <p>Create and maintain digital travel journals to document your experiences.</p>
+        </li>
+        <li class="service">
+            <h2>Photo and Video Upload</h2>
+            <p>Upload  photos and videos from your travels with ease.</p>
+        </li>
+    </ul>
+</section>
+
+<section id="aboutus" class="aboutus">
+    <p class="title-aboutus">About Us </p>
+    <div class="image-container">
+
+        <img src="{{ asset('img/about.png') }}" alt="Photo 1">
+
+
+
+    </div>
+
+
+
+</section>
+
+<section id="contactus" class="contactus">
+    <p class="title-contactus">Contact Us </p>
+    <div class="body">
+        <div class="container">
+            <p>Get in touch.</p>
+            {{ form_start(complaintForm) }}
+            <div class="input-area">
+                {{ form_row(complaintForm.username, {
+                    'attr': {
+                        'placeholder': 'Username',
+                        'onfocus': "this.placeholder=''",
+                        'onblur': "this.placeholder='Username'"
+                    }
+                }) }}
+            </div>
+            <div class="input-area">
+                {{ form_row(complaintForm.email, {
+                    'attr': {
+                        'placeholder': 'Email',
+                        'onfocus': "this.placeholder=''",
+                        'onblur': "this.placeholder='Email'"
+                    }
+                }) }}
+            </div>
+            <div class="input-area">
+                {{ form_row(complaintForm.complaint, {
+                    'attr': {
+                        'placeholder': 'What can we help with?',
+                        'onfocus': "this.placeholder=''",
+                        'onblur': "this.placeholder='What can we help with?'"
+                    }
+                }) }}
+            </div>
+
+            <button type="submit" class="sendbtn" onclick="window.location.href={{path('home_page') }}">Send</button>
+            {{ form_end(complaintForm) }}
+        </div>
+    </div>
+</section>
+
+<script src="{{ asset('js/script.js') }}" ></script>
+
+</body>
+</html>

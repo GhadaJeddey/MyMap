@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel ="stylesheet" href="{{ asset('css/Register.css') }}">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="{{asset('js/Register.js') }}"></script>
+</head>
+<body>
+<div id ="block">
+</div>
+<div id="menu">
+    <div id="logo" onmouseenter="mouseEnter('menu')" onmouseleave="mouseLeave('menu')" onclick="redirect()">
+        <i class='bx bxs-planet' ></i>
+    </div>
+    <div id="title" onmouseenter="mouseEnter('menu')" onmouseleave="mouseLeave('menu')" onclick="redirect()">
+        <p id="title" >MyMap.com</p>
+    </div>
+</div>
+
+<div class="register">
+    {{ form_start(registrationForm) }}
+    <h1>Register</h1>
+    <div class = "input-box">
+        {{ form_row(registrationForm.username, {'attr': {'placeholder': 'Username'}}) }}
+        <i class='bx bx-user' ></i>
+    </div>
+    <div class = "input-box">
+        {{ form_row(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+        <i class='bx bx-envelope'></i>
+    </div>
+    <div class="input-box">
+        {{ form_row(registrationForm.plainPassword, {'attr': {'placeholder': 'Password'}}) }}
+        <i class='bx bx-lock-alt'></i>
+    </div>
+    <span class="input-date">
+            {{ form_row(registrationForm.date) }}
+        </span>
+    <br>
+    <br>
+    <span id="userType" name="userType">
+            {{ form_row(registrationForm.userType) }}
+        </span>
+    <br>
+
+    <button type="submit" id="btn" name="valider" style="font-weight: bold; font-size: medium;" onmouseenter="mouseEnter('btn')" onmouseleave="mouseLeave('btn')">Sign up</button>
+
+    <br>
+    <div>
+        <p>Already have an account ? <a href="{{ path('login') }}" id="signIn" onmouseenter="mouseEnter('signIn')" onmouseleave="mouseLeave('signIn')">Sign in</a>
+        </p>
+    </div>
+    {{ form_end(registrationForm) }}
+</div>
+
+</body>
+</html>
