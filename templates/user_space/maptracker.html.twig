@@ -990,8 +990,8 @@
                     let visitedCountry = {{ visitedCountryNames|json_encode|raw }},
                         visitedCountriesCount = visitedCountry.length,
                         totalCountriesCount = 195,
-                        progressStartValue = (visitedCountriesCount / totalCountriesCount) * 100,
-                        progressEndValue = 0,
+                        progressStartValue = 0,
+                        progressEndValue = (visitedCountriesCount / totalCountriesCount) * 100,
                         speed = 100;
                     let progress = setInterval(() => {
                         progressStartValue = progressStartValue + (progressEndValue - progressStartValue) / (100 / speed);
