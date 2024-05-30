@@ -995,7 +995,6 @@
                         speed = 100;
                     let progress = setInterval(() => {
                         progressStartValue = progressStartValue + (progressEndValue - progressStartValue) / (100 / speed);
-
                         progressValue.textContent = `${progressStartValue}%` ;
                         circularProgress.style.background = `conic-gradient(#34A0A4 ${progressStartValue * 3.6}deg, #ededed 0deg)` ;
 

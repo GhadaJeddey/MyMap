@@ -32,22 +32,35 @@
     <div class="operations">
 
         <!-- delete note -->
-        <form action="{{ path('add_notes') }}" method="post" id="delForm">
+
+        <form action="{{ path('delete_notes') }}" method="post" id="delForm">
             <input type="hidden" name="action" value="delete" >
-            <input type="hidden" name="addNoteText" id="delNoteText">
-            <button class="delete" onclick="delNote()"><i class="fas fa-trash-alt"></i> </button>
+            <input type="hidden" name="noteId" id="delNoteId">
+            <button type="button" class="delete" onclick="delNote(this)"><i class="fas fa-trash-alt"></i> </button>
         </form>
 
+
         <!-- add note -->
+        <form action="{{ path('add_notes') }}" method="post" id="addForm">
+            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="addNoteText" id="addNoteText">
+            <label class="addNote">
+                <button id="addNote" onclick="saveNote()"><i class='bx bx-check' style="font-weight: bold; font-size:29px; "></i> </button>
+            </label>
+        </form>
+
+        <div id="noteActions" data-delete-url="{{ path('delete_notes') }}" data-add-url="{{ path('add_notes') }}"></div>
 
         <div class="main">
-            <textarea name="noteText" id="noteText" placeholder="Write something..."></textarea>
+            <label for="noteText">
+                <textarea name="noteText" id="noteText" placeholder="Write something..."></textarea>
+            </label>
         </div>
     </div>
 </div>
 <script type ="text/javascript">
 
-    let notesTaken = {{ notesTaken|json_encode|raw }};
+    let notesTaken ={{ notesTaken|default([])|json_encode|raw }};
     document.addEventListener('DOMContentLoaded', (event) => {
         notesTaken.forEach(function(noteText) {
             addNoteWithCameraIcon(noteText) ;
