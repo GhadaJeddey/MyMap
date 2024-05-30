@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-
+use Doctrine\ORM\EntityRepository ;
 /**
  * @extends ServiceEntityRepository<User>
 * @implements PasswordUpgraderInterface<User>
@@ -37,6 +37,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+// src/Repository/UserRepository.php
+
+    public function findByRole($role)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"' . $role . '"%') // The "%" are used for the LIKE clause to work with arrays
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

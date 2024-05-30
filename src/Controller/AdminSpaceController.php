@@ -49,19 +49,17 @@ class AdminSpaceController extends AbstractController
     #[Route('/admin/users', name: 'users')]
     public function usersTable(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findBy(['roles' => 'ROLE_USER']);
-        dump($users);
+        $users = $userRepository->findByRole('ROLE_USER');
         return $this->render('admin_space/users.html.twig', [
             'controller_name' => 'AdminSpaceController',
             'users' => $users,
         ]);
     }
-    #[Route('/admin/users', name: 'admins')]
+    #[Route('/admin/admins', name: 'admins')]
     public function adminsTable(UserRepository $userRepository): Response
     {
-        $admins = $userRepository->findBy(['roles' => 'ROLE_ADMIN']);
-        dump($admins);
-        return $this->render('admin_space/users.html.twig', [
+        $admins = $userRepository->findByRole('ROLE_ADMIN');
+        return $this->render('admin_space/admins.html.twig', [
             'controller_name' => 'AdminSpaceController',
             'admins' => $admins,
         ]);
@@ -109,7 +107,7 @@ class AdminSpaceController extends AbstractController
 
 
 
-    #[Route('/admin/fomrs/deleteForm/{id}', name: 'delete_form')]
+    #[Route('/admin/forms/deleteForm/{id}', name: 'delete_form')]
     public function deleteForm(int $id, ComplaintsRepository $formRepository , EntityManagerInterface $entityManager): Response
     {
         $form = $formRepository->find($id);

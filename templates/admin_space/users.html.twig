@@ -100,7 +100,6 @@
                         <th> Id </th>
                         <th> Username <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Email <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Birth Date <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Delete </th>
                     </tr>
                     </thead>
@@ -110,7 +109,6 @@
                             <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.date }}</td>
                             <td>
                                 <a href="{{ path('delete_user', {'id': user.id}) }}" class="del-btn">Delete</a>
                             </td>
