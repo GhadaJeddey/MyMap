@@ -1,55 +1,3 @@
-{#
-
-<?php
-              //this file will submit the received form from the contact us to the database .
-              $conn=mysqli_connect("localhost","root","","complaints");
-
-
-              if (isset($_POST['username'], $_POST['email'], $_POST['complaint'])) {
-                  $username = $_POST['username'];
-                  $email = $_POST['email'];
-                  $complaint = $_POST['complaint'];
-
-                  $stmt = $conn->prepare("INSERT INTO forms (username, email, complaint) VALUES (?, ?, ?)");
-if ($stmt !== false) {
-$stmt->bind_param("sss", $username, $email, $complaint);
-$res = $stmt->execute();
-
-if ($res) {
-echo" <script> alert('submit successful') ;
-    window.location.hre='home.php' ;</script> " ;
-}
-}
-else {
-echo "All fields are required.";
-}
-}
-
-?>
-
-<?php
-    // retrieve the visited countries of the user from the database
-    session_start();
-    $visitedCountries = [];
-    if (isset($_SESSION['user_id'])) {
-        $conn = mysqli_connect("localhost", "root", "", "users_base");
-        $userId = $_SESSION['user_id'];
-
-        // Query to get visited countries
-        $stmt = $conn->prepare("SELECT countryID FROM visitedcountries WHERE userID = ?");
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Fetch all visited country IDs
-while ($row = $result->fetch_assoc()) {
-$visitedCountries[] = $row['countryID'];
-}
-}
-?>
-#}
-
-
 <!doctype html>
 <html lang ="en">
 <head>
@@ -1039,27 +987,35 @@ $visitedCountries[] = $row['countryID'];
                     let circularProgress = document.querySelector(".circular-progress"),
                         progressValue = document.querySelector(".progress-value");
 
-                    let progressStartValue = 0,
+                    let visitedCountry = {{ visitedCountryNames|json_encode|raw }},
+                        visitedCountriesCount = visitedCountry.length,
+                        totalCountriesCount = 195,
+                        progressStartValue = (visitedCountriesCount / totalCountriesCount) * 100,
                         progressEndValue = 0,
-                    speed = 100;
-
+                        speed = 100;
                     let progress = setInterval(() => {
                         progressStartValue = progressStartValue + (progressEndValue - progressStartValue) / (100 / speed);
 
                         progressValue.textContent = `${progressStartValue}%` ;
                         circularProgress.style.background = `conic-gradient(#34A0A4 ${progressStartValue * 3.6}deg, #ededed 0deg)` ;
 
-                        if(progressStartValue == progressEndValue){
+                        if(progressStartValue === progressEndValue){
                             clearInterval(progress);
                         }
+
                     }, speed);
 
                 </script>
             </div>
         </div>
         </div>
-        <span class="text"><p><?php echo $nb_visits; ?> visits out of <?php echo $nb_total; ?> countries</p></span>
+        <span class="text"><p><span id="visitedCount"></span> visits out of 195 countries
+            </p></span>
         </div>
+        <script>
+            document.getElementById('visitedCount').textContent = `${visitedCountriesCount} `;
+
+        </script>
 
     </section>
 </section>

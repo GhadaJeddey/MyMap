@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column(type: 'integer')]
-    private ?int $nbVisits = null;
+    private ?int $nbVisits = 0;
 
     private ?string $userType = null;
 

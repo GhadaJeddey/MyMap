@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VisitedCountriesController extends AbstractController
 {
-    #[Route('/user', name: 'add_visited_countries')]
+    #[Route('/user/add', name: 'add_visited_countries')]
     public function addVisitedCountry(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user =$this->getUser();
@@ -38,7 +38,7 @@ class VisitedCountriesController extends AbstractController
             'controller_name' => 'VisitedCountriesController',
         ]);
     }
-    #[Route('/user', name: 'remove_visited_countries')]
+    #[Route('/user/remove', name: 'remove_visited_countries')]
     public function removeVisitedCountry(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -57,8 +57,8 @@ class VisitedCountriesController extends AbstractController
 
             if ($visitedCountry) {
                 $entityManager->remove($visitedCountry);
-                $entityManager->flush();
                 $user->setNbVisits($user->getNbVisits() - 1);
+                $entityManager->flush();
             }
 
             return $this->redirectToRoute('map');
