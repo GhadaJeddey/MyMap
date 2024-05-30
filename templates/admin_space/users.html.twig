@@ -1,10 +1,81 @@
-{% extends 'sideBar.html.twig'  %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title> Users </title>
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/TableTemplate.css') }}">
+    <script src="{{ asset('js/TableTemplate.js') }}"></script>
 
-{% block title %} Complaints {% endblock %}
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-{% block body %}
+<body>
+<div class="sidebar close">
+    <div class="logo-details">
+        <i class='bx bxs-planet' ></i>
+        <span class="logo_name">MyMap.com</span>
+    </div>
+    <ul class="nav-links">
+        <!--Dashboard Button -->
+        <li>
+            <a href="{{ path('dashboard') }}">
+                <i class='bx bx-grid-alt' ></i>
+                <span class="link_name" onclick="window.location.href={{ path('dashboard') }}">Dashboard</span>
+            </a>
+        </li>
 
-    {{ parent() }}
+        <!--Members-->
+        <li>
+            <div class="iocn-link">
+                <a href="#">
+                    <i class='bx bxs-user-detail'></i>
+                    <span class="link_name">Members</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow' ></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name">Members</a></li>
+                <li><a href="{{ path('users') }}">Users</a></li>
+                <li><a href="{{ path('admins') }}">Admins</a></li>
+            </ul>
+        </li>
+
+        <!--Received Forms-->
+        <li>
+            <a href="{{ path('forms') }}">
+                <i class='bx bx-book-content'></i>
+                <span class="link_name">Forms</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{{ path('forms') }}">Forms</a></li>
+            </ul>
+        </li>
+
+        <script src="{{ asset('js/dashboard.js') }}"></script>
+
+        <div class="profile-details">
+            <div class="profile-content">
+                <img src="{{ asset('img/ghada.jpg') }}" alt="profileImg">
+                <div class="profile_name"> Ghada Jeddey</div>
+                <div class="log-out">
+                    <i class='bx bx-log-out' onclick="logoutDash()"></i>
+                </div>
+            </div>
+        </div>
+
+    </ul>
+</div>
+
+<section class="home-section">
+
+    <div class="home-content">
+        <i class='bx bx-menu' ></i>
+        <span class="text">Menu</span>
+    </div>
 
     <div class="main_table">
         <main class="table" id="customers_table">
@@ -41,7 +112,7 @@
                             <td>{{ user.email }}</td>
                             <td>{{ user.date }}</td>
                             <td>
-                                <a href="{{ path('users', {'id': user.id}) }}" class="del-btn">Delete</a>
+                                <a href="{{ path('delete_user', {'id': user.id}) }}" class="del-btn">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -50,5 +121,4 @@
             </section>
         </main>
     </div>
-    </section>
-{% endblock %}
+</section>

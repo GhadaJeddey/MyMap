@@ -1,23 +1,39 @@
-let arrow = document.querySelectorAll(".arrow");
-for (var i = 0; i < arrow.length; i++) {
-  arrow[i].addEventListener("click", (e)=>{
- let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
- arrowParent.classList.toggle("showMenu");
-  });
-}
-
-let sidebar = document.querySelector(".sidebar");
-let sidebarBtn = document.querySelector(".bx-menu");
-sidebarBtn.addEventListener("click", ()=>{
-  sidebar.classList.toggle("close");
+document.querySelectorAll(".arrow").forEach((arrow) => {
+    arrow.addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement;
+        arrowParent.classList.toggle("showMenu");
+    });
 });
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    let sidebarBtn = document.querySelector(".bx-menu");
+    if (sidebarBtn) {
+        sidebarBtn.addEventListener("click", () => {
+            let sidebar = document.querySelector(".sidebar");
+            sidebar.classList.toggle("close");
+        });
+    } else {
+        console.log("Menu button not found");
+    }
+
+    // Ensure this part is corrected
+    let arrows = document.querySelectorAll(".arrow");
+    arrows.forEach(arrow => {
+        arrow.addEventListener("click", (e) => {
+            let arrowParent = e.target.parentElement.parentElement; // selecting main parent of arrow
+            arrowParent.classList.toggle("showMenu");
+        });
+    });
+});
+
+
 function logout () {
-  window.location.href="../../HomePage/home.php";
+  window.location.href="{{path('home')}}";
 }
 
 function logoutDash () {
-  window.location.href="../HomePage/home.php";
+    window.location.href="{{path('home')}}";
 }
 
 function addTask()

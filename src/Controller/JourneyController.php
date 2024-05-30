@@ -3,19 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Journey;
-use App\Repository\JourneyRepository;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class JourneyController extends AbstractController
 {
 
 
-    #[Route('/user/journey/add', name: 'add_notes', methods: ['POST'])]
-    public function addNotes(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
+    #[Route('/user/journey/add', name: 'add_notes')]
+    public function addNotes(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -36,8 +37,6 @@ class JourneyController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('retrieve_notes');
-        } else {
-            error_log('No note text received');
         }
 
         return $this->render('user_space/journey.html.twig', [
@@ -46,8 +45,8 @@ class JourneyController extends AbstractController
     }
 
 
-    #[Route('/user/journey/delete', name: 'delete_notes', methods: ['POST'])]
-    public function deleteNotes(Request $request, EntityManagerInterface $entityManager): \Symfony\Component\HttpFoundation\Response
+    #[Route('/user/journey/delete', name: 'delete_notes')]
+    public function deleteNotes(Request $request, EntityManagerInterface $entityManager):Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -56,9 +55,10 @@ class JourneyController extends AbstractController
 
         $noteId = $request->request->get('noteId');
 
-        if ($noteId) {
-            $journeyRepository = $entityManager->getRepository(Journey::class);
-            $note = $journeyRepository->findOneBy(['id' => $noteId, 'user' => $user]);
+        if ($request->isMethod('POST') && $noteId) {
+            $note= $entityManager->getRepository(Journey::class)->findOneBy([
+                'id' => $noteId,
+                'user' => $user]);
 
             if ($note) {
                 $entityManager->remove($note);
@@ -73,17 +73,17 @@ class JourneyController extends AbstractController
         ]);
     }
 
-    #[Route("/user/journey", name : "retrieve_notes") ]
+    #[Route("/notes", name : "retrieve_notes") ]
 
-    public function retrieveNotes(JourneyRepository $journeyRepository): \Symfony\Component\HttpFoundation\Response
+    public function retrieveNotes(EntityManagerInterface $entityManager): Response
     {
         $userId = $this->getUser()->getId();
-        $notesTaken = $journeyRepository->findBy(['user' => $userId]);
+        $notesTaken = $entityManager->getRepository(Journey::class)->findBy([
+            'user' => $userId
+        ]);
 
         return $this->render('user_space/journey.html.twig', [
             'notesTaken' => $notesTaken,
         ]);
     }
-
-
 }
