@@ -1,4 +1,4 @@
-# ProjetWebSymfony
+# Web Application Project
 
 This project marked my first venture into web development, providing a valuable opportunity to gain hands-on experience and develop foundational skills in the field.  
 
